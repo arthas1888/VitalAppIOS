@@ -51,15 +51,17 @@
           
             <md-sidenav ng-if="authentication.isAuth" ng-cloak class="md-sidenav-left md-whiteframe-z4" md-component-id="left" tabindex="-1" style="position: fixed;">
         
-                <md-toolbar class="md-theme-indigo" style="height:250px; min-height:250px;" ng-if="authentication.isAuth">
+                <md-toolbar class="md-theme-indigo" style="height:250px; min-height:250px;background-color: white;" ng-if="authentication.isAuth">
                     <div layout="column" layout-align="center center">
+                        <!--
                         <h3 class="md-toolbar-tools">
                             <md-button class="md-icon-button" ng-click="closeSide()" aria-label="closeSide">
                                <i class="icon-menu"></i>
                             </md-button>
                         </h3>
+                        -->
                         <br>
-                        <img src="img/logo-vital-blanco.png" width="128"/>
+                        <img src="img/VERTICAL-WEB.png" width="128"/>
                         <!--<h3 class="md-toolbar-tools" style="padding-bottom:20px;" flex layout-align="center center" flex>
                             <a ng-href="#/home"><h3>Plataforma Anamnesis</h3></a>
                         </h3>-->
@@ -85,11 +87,13 @@
                 
                 <md-toolbar ng-if="authentication.isAuth" style="z-index: 1000;">
                   <div class="md-toolbar-tools">
+                      <!--
                     <md-button class="md-icon-button" aria-label="openSide" ng-click="openSide()">
                         <i class="icon-menu"></i>
-                    </md-button>                        
+                    </md-button>
+                                      -->
                     <h3>
-                      <span>VitalApp</span>                         
+                      <span>Anamnesis</span>
                     </h3>
                     <span flex></span>
                   

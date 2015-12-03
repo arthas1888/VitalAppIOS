@@ -1,5 +1,5 @@
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="co.education.ean" version="1.0.0">
-  <name>Vital</name>
+  <name>Anamnesis</name>
   <description>Esta aplicacion permite acceder a una base de datos de personas para conocer su anamnesis</description>
   <author href="https://sersoluciones.com" email="contacto@sersoluciones.com">Gustavo Morales</author>
   <content src="index.html"/>
@@ -43,10 +43,10 @@
   <icon src="www/res/icon/android/icon-72-hdpi.png" gap:platform="android" gap:qualifier="hdpi"/>
   <icon src="www/res/icon/android/icon-96-xhdpi.png" gap:platform="android" gap:qualifier="xhdpi"/>
 
-  <icon src="www/res/icon/ios/icon-57.png" gap:platform="ios" width="57" height="57"/>
-  <icon src="www/res/icon/ios/icon-72.png" gap:platform="ios" width="72" height="72"/>
-  <icon src="www/res/icon/ios/icon-114.png" gap:platform="ios" width="114" height="114"/>
-  <icon src="www/res/icon/ios/icon-144.png" gap:platform="ios" width="144" height="144"/>
+  <icon src="www/res/icon/ios/logo_57.png" gap:platform="ios" width="57" height="57"/>
+  <icon src="www/res/icon/ios/logo_72.png" gap:platform="ios" width="72" height="72"/>
+  <icon src="www/res/icon/ios/logo_114.png" gap:platform="ios" width="114" height="114"/>
+  <icon src="www/res/icon/ios/logo_144.png" gap:platform="ios" width="144" height="144"/>
 
 
   <!--

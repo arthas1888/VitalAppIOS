@@ -15,7 +15,7 @@ appAngular.factory('authInterceptorService', ['$q', '$location', 'localStorageSe
         }
 
         return config;
-    }
+    };
 
     var _responseError = function (rejection) {
 
@@ -30,7 +30,7 @@ appAngular.factory('authInterceptorService', ['$q', '$location', 'localStorageSe
         }
         
         return $q.reject(rejection);
-    }
+    };
 
     authInterceptorServiceFactory.request = _request;
     authInterceptorServiceFactory.responseError = _responseError;
@@ -41,8 +41,8 @@ appAngular.factory('authInterceptorService', ['$q', '$location', 'localStorageSe
 
 appAngular.config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
-    .primaryPalette('red', {
-      'default': '500', // by default use shade 400 from the pink palette for primary intentions
+    .primaryPalette('purple', {
+      'default': '800' // by default use shade 400 from the pink palette for primary intentions
       
     })
     // If you specify less than all of the keys, it will inherit from the
@@ -168,13 +168,13 @@ appAngular.factory('authService', ['$http', '$q', '$mdDialog', 'localStorageServ
         var authData = localStorageService.get("authorizationData");
         
         if (authData) {
-            $http.post(serviceBase + 'api/Account/Logout').then(function () {
+            //$http.post(serviceBase + 'api/Account/Logout').then(function () {
                 localStorageService.remove('authorizationData');
                 localStorageService.remove('roleUser');
                 _authentication.isAuth = false;
                 _authentication.userName = "";
                 _authentication.role = "";
-            });
+            //});
         }
         $location.path('/login');
 
