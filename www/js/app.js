@@ -93,7 +93,7 @@ appAngular.config(function($routeProvider, $locationProvider, $httpProvider) {
 appAngular.factory('authService', ['$http', '$q', '$mdDialog', 'localStorageService', '$location',
     function ($http, $q, $mdDialog, localStorageService, $location) {
 
-    var serviceBase = 'http://administracion.os-position.com:8040/';
+    var serviceBase = 'http://api.anamnesiscolombia.com:8040/';
     
     var authServiceFactory = {};
 
@@ -463,10 +463,11 @@ appAngular.controller('HomeController', ['$scope', 'authService', '$location', '
 
     // Note that each platform requires its own license key
 
-    var licenseiOs = "BPYSF6L5-NYFOXZ4Q-X6DI75I7-Q2BYOFFM-SC7Y55AN-Z35MPW7B-OP3B7BUD-Q4KP37BK";
+    var licenseiOs = "Q252UJIK-7CR56FVB-CSSC3LEQ-X6HPIDOO-7LD5XYLT-6YPYNA4H-CSWJBP4O-6QGZ72F5";
 
     // This license is only valid for package name "mobi.pdf417.demo"
-    var licenseAndroid = "UDPICR2T-RA2LGTSD-YTEONPSJ-LE4WWOWC-5ICAIBAE-AQCAIBAE-AQCAIBAE-AQCFKMFM";
+    var licenseAndroid = "APVNKOU2-K6BXB62F-YUKOA7E2-KOFNJQ2V-MPVLWFYD-HDYU3OHT-A7D5ZPKN-XDZVNYJ6";
+    
     
     var hex2a = function(hex) {
         var str = '';
@@ -480,10 +481,12 @@ appAngular.controller('HomeController', ['$scope', 'authService', '$location', '
         
         $scope.paciente = null;
         
-        cordova.plugins.pdf417Scanner.scan(
         
-            // Register the callback handler
+        cordova.plugins.pdf417Scanner.scan(
+            
+           		// Register the callback handler
             function callback(scanningResult) {
+                
                 $scope.infoUser = {};
                 // handle cancelled scanning
                 if (scanningResult.cancelled == true) {
@@ -493,12 +496,14 @@ appAngular.controller('HomeController', ['$scope', 'authService', '$location', '
                 
                 // Obtain list of recognizer results
                 var resultList = scanningResult.resultList;
+                
                 // Iterate through all results
                 for (var i = 0; i < resultList.length; i++) {
-                    
+
                     // Get individual resilt
                     var recognizerResult = resultList[i];
                     if (recognizerResult.resultType == "Barcode result") {
+
                         // handle Barcode scanning result
 
                         var raw = "";
@@ -512,6 +517,8 @@ appAngular.controller('HomeController', ['$scope', 'authService', '$location', '
 
                         var raw2 = recognizerResult.data.split("�");
 
+                        console.log("raw", raw);
+                        console.log("recognizerResult.data", recognizerResult.data);
                         
                         if (result.length < 10){
 
@@ -528,7 +535,7 @@ appAngular.controller('HomeController', ['$scope', 'authService', '$location', '
                                 raw = raw.split("-");
                                 raw = raw[0].concat("-");
                             }
-                            console.log(raw);
+                            console.log(values, "length: " + values.length);
                             getDatos(raw, values);
                         }
                         else{
@@ -546,7 +553,34 @@ appAngular.controller('HomeController', ['$scope', 'authService', '$location', '
                         $scope.infoUser["nacimiento"] = new Date(nacimiento);
                         console.log($scope.infoUser);
                         consultarPaciente($scope.infoUser["cedula"]);
-                        
+
+                    } else if (recognizerResult.resultType == "USDL result") {
+                        // handle USDL parsing result
+
+                        var fields = recognizerResult.fields;
+
+                        console.log( /** Personal information */
+                                            "USDL version: " + fields[kPPStandardVersionNumber] + "; " +
+                                            "Family name: " + fields[kPPCustomerFamilyName] + "; " +
+                                            "First name: " + fields[kPPCustomerFirstName] + "; " +
+                                            "Date of birth: " + fields[kPPDateOfBirth] + "; " +
+                                            "Sex: " + fields[kPPSex] + "; " +
+                                            "Eye color: " + fields[kPPEyeColor] + "; " +
+                                            "Height: " + fields[kPPHeight] + "; " +
+                                            "Street: " + fields[kPPAddressStreet] + "; " +
+                                            "City: " + fields[kPPAddressCity] + "; " +
+                                            "Jurisdiction: " + fields[kPPAddressJurisdictionCode] + "; " +
+                                            "Postal code: " + fields[kPPAddressPostalCode] + "; " +
+
+                                            /** License information */
+                                            "Issue date: " + fields[kPPDocumentIssueDate] + "; " +
+                                            "Expiration date: " + fields[kPPDocumentExpirationDate] + "; " +
+                                            "Issuer ID: " + fields[kPPIssuerIdentificationNumber] + "; " +
+                                            "Jurisdiction version: " + fields[kPPJurisdictionVersionNumber] + "; " +
+                                            "Vehicle class: " + fields[kPPJurisdictionVehicleClass] + "; " +
+                                            "Restrictions: " + fields[kPPJurisdictionRestrictionCodes] + "; " +
+                                            "Endorsments: " + fields[kPPJurisdictionEndorsementCodes] + "; " +
+                                            "Customer ID: " + fields[kPPCustomerIdNumber] + "; ");
                     }
                 }
             },
@@ -558,6 +592,7 @@ appAngular.controller('HomeController', ['$scope', 'authService', '$location', '
 
             types, options, licenseiOs, licenseAndroid
         );
+        
     };
     
     var consultarPaciente = function(cedula){
@@ -605,9 +640,14 @@ appAngular.controller('HomeController', ['$scope', 'authService', '$location', '
     var partialNit = "";
     
     var getDatos = function(str, fullName){
-        $scope.infoUser["apellido"] = (fullName[2].replace(/[0-9]/g, '')).concat(" " + fullName[3]);
-        $scope.infoUser["nombre"] = typeof fullName[5] == "undefined" ? fullName[4] : fullName[4].concat(" " + fullName[5]);
-
+        
+        if (fullName.length == 6){
+            $scope.infoUser["apellido"] = (fullName[2].replace(/[0-9]/g, '')).concat(" " + fullName[3]);
+            $scope.infoUser["nombre"] = typeof fullName[5] == "undefined" ? fullName[4] : fullName[4].concat(" " + fullName[5]);
+        }else if (fullName.length == 7){
+            $scope.infoUser["apellido"] = (fullName[3].replace(/[0-9]/g, '')).concat(" " + fullName[4]);
+            $scope.infoUser["nombre"] = typeof fullName[6] == "undefined" ? fullName[5] : fullName[5].concat(" " + fullName[6]);
+        }
         if (str.indexOf("0M") != -1){
             
             subSrt = str.split("PubDSK_");
